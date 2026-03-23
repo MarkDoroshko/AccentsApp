@@ -9,6 +9,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        maven { url = uri("https://artifactory.yandex.net/artifactory/mobile-ads-sdk-android") }
     }
 }
 plugins {
@@ -24,4 +25,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "AccentsApp"
 include(":app")
- 
+include(":domain")
+include(":data")
+include(":presentation")
