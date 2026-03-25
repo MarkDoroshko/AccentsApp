@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.kotlin.serialization) apply false
 }
 
 android {
@@ -35,6 +36,9 @@ android {
 }
 
 dependencies {
+    // Kotlinx Serialization
+    implementation(libs.kotlinx.serialization.json)
+
     // Domain module
     implementation(project(":domain"))
 
