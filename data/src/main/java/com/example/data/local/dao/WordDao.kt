@@ -3,7 +3,6 @@ package com.example.data.local.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import com.example.data.local.model.WordDbModel
 import com.example.data.local.model.WordWithVariants
 
 @Dao

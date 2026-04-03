@@ -3,7 +3,6 @@ package com.example.presentation.screen.words
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.Word
 import com.example.domain.usecase.GetWordsUseCase
 import com.example.presentation.mapper.toUiItem
 import com.example.presentation.model.VariantUiItem
