@@ -9,7 +9,7 @@ import com.example.data.local.model.WordDbModel
 @Database(
     entities = [WordDbModel::class, VariantDbModel::class],
     version = 1,
-    exportSchema = true
+    exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun wordDao(): WordDao

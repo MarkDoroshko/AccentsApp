@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface RepositoryModule {
+fun interface RepositoryModule {
     @Binds
     @Singleton
     fun bindWordsRepository(impl: WordsRepositoryImpl): WordsRepository
