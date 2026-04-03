@@ -9,9 +9,9 @@ import com.example.data.local.model.WordWithVariants
 interface WordDao {
     @Transaction
     @Query("SELECT * FROM words WHERE id = :wordId")
-    fun getWordWithVariants(wordId: Int): WordWithVariants
+    suspend fun getWordWithVariants(wordId: Int): WordWithVariants
 
     @Transaction
     @Query("SELECT * FROM words")
-    fun getAllWordsWithVariant(): List<WordWithVariants>
+    suspend fun getAllWordsWithVariant(): List<WordWithVariants>
 }
