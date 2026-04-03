@@ -21,3 +21,8 @@ val DarkSecondary = Color(0xFFFF6B7A)
 val DarkOnSecondary = Color(0xFF0F1123)
 val DarkTertiary = Color(0xFF252845)
 val DarkOnTertiary = Color(0xFFCBCDE2)
+
+// Other
+val Violet = Color(0xFF7B2FF7)
+val Purple = Color(0xFFE040FB)
+val Blue = Color(0xFF2CCCFF)

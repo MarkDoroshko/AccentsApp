@@ -21,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -29,6 +28,9 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.example.presentation.R
+import com.example.presentation.theme.Blue
+import com.example.presentation.theme.Purple
+import com.example.presentation.theme.Violet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,9 +40,9 @@ fun GreetingScreen(
 ) {
     val gradientBrush = Brush.linearGradient(
         colors = listOf(
-            Color(0xFF7B2FF7),
-            Color(0xFFE040FB),
-            Color(0xFF2CCCFF)
+            Violet,
+            Purple,
+            Blue
         ),
         start = Offset(0f, 0f),
         end = Offset(400f, 0f)
