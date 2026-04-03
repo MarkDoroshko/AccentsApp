@@ -2,10 +2,14 @@ package com.example.presentation.screen.words
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,8 +18,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.presentation.model.VariantState
 
 @Composable
 fun WordsScreen(
@@ -27,26 +31,51 @@ fun WordsScreen(
     val state by viewModel.state.collectAsState()
 
     Column(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (state.currentWord != null) {
-            state.currentWord!!.variants.forEach { variant ->
+        state.currentWord?.let { word ->
+            Text(
+                text = word.word,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            word.variants.forEach { variant ->
+                val containerColor = when (variant.state) {
+                    VariantState.Default -> MaterialTheme.colorScheme.tertiary
+                    VariantState.Correct -> MaterialTheme.colorScheme.primary
+                    VariantState.Wrong -> MaterialTheme.colorScheme.secondary
+                }
+                val contentColor = when (variant.state) {
+                    VariantState.Default -> MaterialTheme.colorScheme.onTertiary
+                    VariantState.Correct -> MaterialTheme.colorScheme.onPrimary
+                    VariantState.Wrong -> MaterialTheme.colorScheme.onSecondary
+                }
+
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = { viewModel.processIntent(WordsIntent.SelectVariant(variant)) },
                     enabled = !state.isSelected,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = variant.color
+                        containerColor = containerColor,
+                        contentColor = contentColor,
+                        disabledContainerColor = containerColor,
+                        disabledContentColor = contentColor
                     )
                 ) {
                     Text(
-                        modifier = Modifier,
                         text = variant.variant,
-                        fontSize = 16.sp
+                        style = MaterialTheme.typography.labelLarge
                     )
                 }
+
+                Spacer(modifier = Modifier.height(8.dp))
             }
         }
     }

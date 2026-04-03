@@ -1,10 +1,10 @@
 package com.example.presentation.screen.words
 
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.GetWordsUseCase
 import com.example.presentation.mapper.toUiItem
+import com.example.presentation.model.VariantState
 import com.example.presentation.model.VariantUiItem
 import com.example.presentation.model.WordUiItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,24 +44,18 @@ class WordsViewModel @Inject constructor(
                 previousState.copy(
                     isSelected = true,
                     currentWord = previousState.currentWord?.copy(
-                        variants = if (variant.isCorrect) {
-                            previousState.currentWord.variants.map {
-                                it.copy(color = if (it.isCorrect) Color.Green else it.color)
-                            }
-                        } else {
-                            previousState.currentWord.variants.map {
-                                it.copy(
-                                    color = if (it.isCorrect) Color.Green
-                                    else if (it.id == variant.id) Color.Red
-                                    else it.color
-                                )
+                        variants = previousState.currentWord.variants.map {
+                            when {
+                                it.isCorrect -> it.copy(state = VariantState.Correct)
+                                it.id == variant.id -> it.copy(state = VariantState.Wrong)
+                                else -> it
                             }
                         }
                     )
                 )
             }
 
-            delay(1000)
+            delay(2000)
 
             _state.update { previousState ->
                 previousState.copy(
