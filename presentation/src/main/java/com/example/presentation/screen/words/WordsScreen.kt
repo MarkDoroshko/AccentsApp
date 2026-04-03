@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,8 +21,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 @Composable
 fun WordsScreen(
     modifier: Modifier = Modifier,
-    viewModel: WordsViewModel = hiltViewModel(),
-    onFinished: () -> Unit
+    viewModel: WordsViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) { viewModel.loadWords() }
 
@@ -35,11 +35,12 @@ fun WordsScreen(
         if (state.currentWord != null) {
             state.currentWord!!.variants.forEach { variant ->
                 Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(variant.color),
+                    modifier = Modifier.fillMaxWidth(),
                     onClick = { viewModel.processIntent(WordsIntent.SelectVariant(variant)) },
-                    enabled = state.isSelected
+                    enabled = !state.isSelected,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = variant.color
+                    )
                 ) {
                     Text(
                         modifier = Modifier,

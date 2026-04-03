@@ -22,9 +22,7 @@ fun NavGraph() {
         }
 
         composable(Screen.Words.route) {
-            WordsScreen(
-                onFinished = {}
-            )
+            WordsScreen()
         }
     }
 }

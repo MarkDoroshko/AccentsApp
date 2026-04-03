@@ -9,10 +9,11 @@ import com.example.presentation.mapper.toUiItem
 import com.example.presentation.model.VariantUiItem
 import com.example.presentation.model.WordUiItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,7 +24,7 @@ class WordsViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     fun loadWords() {
-        runBlocking {
+        viewModelScope.launch {
             val words = getWordsUseCase()
             _state.value = _state.value.copy(
                 currentWord = words.map { it.toUiItem() }.random(),
@@ -39,35 +40,37 @@ class WordsViewModel @Inject constructor(
     }
 
     private fun selectVariant(variant: VariantUiItem) {
-        _state.value = _state.value.copy(isSelected = true)
-
-        _state.update { previousState ->
-//            previousState.currentWord?.variants?.find { it.id == variant.id }
-            previousState.copy(
-                currentWord = previousState.currentWord?.copy(
-                    variants = if (variant.isCorrect) {
-                        previousState.currentWord.variants.map {
-                            it.copy(color = if (it.isCorrect) Color.Green else it.color)
+        viewModelScope.launch {
+            _state.update { previousState ->
+                previousState.copy(
+                    isSelected = true,
+                    currentWord = previousState.currentWord?.copy(
+                        variants = if (variant.isCorrect) {
+                            previousState.currentWord.variants.map {
+                                it.copy(color = if (it.isCorrect) Color.Green else it.color)
+                            }
+                        } else {
+                            previousState.currentWord.variants.map {
+                                it.copy(
+                                    color = if (it.isCorrect) Color.Green
+                                    else if (it.id == variant.id) Color.Red
+                                    else it.color
+                                )
+                            }
                         }
-                    } else {
-                        previousState.currentWord.variants.map {
-                            it.copy(color = if (it.isCorrect) Color.Green else Color.Red)
-                        }
-                    }
+                    )
                 )
-            )
+            }
+
+            delay(1000)
+
+            _state.update { previousState ->
+                previousState.copy(
+                    isSelected = false,
+                    currentWord = previousState.words.random()
+                )
+            }
         }
-
-        Thread.sleep(1000)
-
-        _state.update { previousState ->
-            previousState.copy(
-                currentWord = previousState.words.random(),
-                words = previousState.words
-            )
-        }
-
-        _state.value = _state.value.copy(isSelected = false)
     }
 }
 
