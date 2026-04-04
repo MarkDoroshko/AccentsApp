@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.material)
 
     // Navigation Compose
     implementation(libs.androidx.navigation.compose)
@@ -69,10 +70,13 @@ dependencies {
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
 
+    // Splash Screen API
+    implementation(libs.androidx.core.splashscreen)
+
     implementation(libs.androidx.core.ktx)
-    testImplementation(libs.junit)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+
+    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
