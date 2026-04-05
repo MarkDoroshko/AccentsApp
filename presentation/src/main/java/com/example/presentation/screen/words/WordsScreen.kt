@@ -53,7 +53,7 @@ fun WordsScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             CompositionLocalProvider(LocalRippleConfiguration provides null) {
-                word.variants.forEach { variant ->
+                word.variants.shuffled().forEach { variant ->
                     val containerColor = when (variant.state) {
                         VariantState.Default -> MaterialTheme.colorScheme.tertiary
                         VariantState.Correct -> MaterialTheme.colorScheme.primary
