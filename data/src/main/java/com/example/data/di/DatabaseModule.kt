@@ -24,8 +24,8 @@ object DatabaseModule {
             klass = AppDatabase::class.java,
             name = "words.db"
         ).createFromAsset("ege_stress.db")
-         .fallbackToDestructiveMigration(dropAllTables = true)
-         .build()
+            .fallbackToDestructiveMigration(dropAllTables = true)
+            .build()
     }
 
     @Singleton
