@@ -9,7 +9,6 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
-        maven { url = uri("https://artifactory.yandex.net/artifactory/mobile-ads-sdk-android") }
     }
 }
 plugins {

@@ -73,6 +73,9 @@ dependencies {
     // Splash Screen API
     implementation(libs.androidx.core.splashscreen)
 
+    // Yandex Mobile Ads
+    implementation(libs.yandex.mobileads)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
 
