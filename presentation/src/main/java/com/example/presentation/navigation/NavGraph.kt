@@ -2,79 +2,89 @@ package com.example.presentation.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.presentation.screen.greeting.GreetingScreen
-import com.example.presentation.screen.words.WordsScreen
+import androidx.navigation.navArgument
+import com.example.domain.entity.Category
+import com.example.presentation.screen.categories.CategoriesScreen
+import com.example.presentation.screen.quiz.QuizNavArgs
+import com.example.presentation.screen.quiz.QuizScreen
+import com.example.presentation.screen.result.ResultScreen
+import com.example.presentation.screen.start.StartScreen
 
-@OptIn(ExperimentalMaterial3Api::class)
+sealed class Screen(val route: String) {
+    data object Start : Screen("start")
+    data object Categories : Screen("categories")
+    data object Quiz : Screen("quiz/{${QuizNavArgs.CATEGORY_ARG}}") {
+        fun build(category: Category) = "quiz/${category.name}"
+    }
+    data object Result : Screen("result")
+}
+
 @Composable
-fun NavGraph(
-    modifier: Modifier = Modifier
-) {
+fun NavGraph(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = MaterialTheme.colorScheme.background,
-        topBar = {
-            if (currentRoute == Screen.Words.route) {
-                TopAppBar(
-                    title = {},
-                    navigationIcon = {
-                        IconButton(
-                            onClick = { navController.popBackStack() }
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onBackground
-                            )
-                        }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    )
-                )
-            }
-        }
+        containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
         NavHost(
             modifier = Modifier.padding(innerPadding),
             navController = navController,
-            startDestination = Screen.Greeting.route
+            startDestination = Screen.Start.route
         ) {
-            composable(Screen.Greeting.route) {
-                GreetingScreen(
-                    onStart = { navController.navigate(Screen.Words.route) }
+            composable(Screen.Start.route) {
+                StartScreen(
+                    onStart = { navController.navigate(Screen.Categories.route) }
                 )
             }
 
-            composable(Screen.Words.route) {
-                WordsScreen()
+            composable(Screen.Categories.route) {
+                CategoriesScreen(
+                    onBack = { navController.popBackStack() },
+                    onPick = { category ->
+                        navController.navigate(Screen.Quiz.build(category))
+                    }
+                )
+            }
+
+            composable(
+                route = Screen.Quiz.route,
+                arguments = listOf(
+                    navArgument(QuizNavArgs.CATEGORY_ARG) { type = NavType.StringType }
+                )
+            ) {
+                QuizScreen(
+                    onHome = {
+                        navController.popBackStack(Screen.Start.route, inclusive = false)
+                    },
+                    onFinish = {
+                        navController.navigate(Screen.Result.route) {
+                            popUpTo(Screen.Categories.route)
+                        }
+                    }
+                )
+            }
+
+            composable(Screen.Result.route) {
+                ResultScreen(
+                    onPlayAgain = { category ->
+                        navController.navigate(Screen.Quiz.build(category)) {
+                            popUpTo(Screen.Categories.route)
+                        }
+                    },
+                    onHome = {
+                        navController.popBackStack(Screen.Start.route, inclusive = false)
+                    }
+                )
             }
         }
     }
-}
-
-sealed class Screen(val route: String) {
-    data object Greeting : Screen("greeting")
-    data object Words : Screen("words")
 }

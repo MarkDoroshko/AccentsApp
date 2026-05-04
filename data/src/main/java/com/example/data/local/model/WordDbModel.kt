@@ -6,5 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "words")
 data class WordDbModel(
     @PrimaryKey(autoGenerate = true) val id: Int,
-    val word: String
+    val word: String,
+    val partOfSpeech: String
 )

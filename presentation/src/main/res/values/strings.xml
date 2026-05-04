@@ -1,6 +1,3 @@
 <resources>
     <string name="app_name">Áccents</string>
-    <string name="greeting_title_prefix">Приветствуем в</string>
-    <string name="greeting_title_accent">Áccents</string>
-    <string name="start_button">Начать</string>
 </resources>

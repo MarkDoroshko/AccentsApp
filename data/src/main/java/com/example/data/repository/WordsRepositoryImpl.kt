@@ -2,6 +2,7 @@ package com.example.data.repository
 
 import com.example.data.local.dao.WordDao
 import com.example.data.mapper.toEntity
+import com.example.domain.entity.Category
 import com.example.domain.entity.Word
 import com.example.domain.repository.WordsRepository
 import javax.inject.Inject
@@ -11,5 +12,10 @@ class WordsRepositoryImpl @Inject constructor(
 ) : WordsRepository {
     override suspend fun getWords(): List<Word> {
         return wordDao.getAllWordsWithVariant().map { it.toEntity() }
+    }
+
+    override suspend fun getWordsByCategory(category: Category): List<Word> {
+        val partOfSpeech = category.partOfSpeech ?: return getWords()
+        return wordDao.getWordsByPartOfSpeech(partOfSpeech.name).map { it.toEntity() }
     }
 }

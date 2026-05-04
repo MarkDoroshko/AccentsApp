@@ -2,27 +2,28 @@ package com.example.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Light theme
-val LightBackground = Color(0xFFFFFFFF)
-val LightOnBackground = Color(0xFF181725)
-val LightPrimary = Color(0xFF53B175)
-val LightOnPrimary = Color(0xFFFFFFFF)
-val LightSecondary = Color(0xFFD32F2F)
-val LightOnSecondary = Color(0xFFFFFFFF)
-val LightTertiary = Color(0xFFF2F3F2)
-val LightOnTertiary = Color(0xFF181725)
+val Bg = Color(0xFFFBF7F0)
+val Surface = Color(0xFFFFFFFF)
+val Ink = Color(0xFF1F1B2E)
+val InkMute = Color(0xFF6B6680)
+val Border = Color(0xFFEDE6D7)
 
-// Dark theme
-val DarkBackground = Color(0xFF0F1123)
-val DarkOnBackground = Color(0xFFE2E4F4)
-val DarkPrimary = Color(0xFF7CFFCB)
-val DarkOnPrimary = Color(0xFF0F1123)
-val DarkSecondary = Color(0xFFFF6B7A)
-val DarkOnSecondary = Color(0xFF0F1123)
-val DarkTertiary = Color(0xFF252845)
-val DarkOnTertiary = Color(0xFFCBCDE2)
+val Accent = Color(0xFF6C4DF6)
+val AccentSoft = Color(0xFFEFEAFE)
 
-// Other
-val Violet = Color(0xFF7B2FF7)
-val Purple = Color(0xFFE040FB)
-val Blue = Color(0xFF2CCCFF)
+val Ok = Color(0xFF22A06B)
+val OkSoft = Color(0xFFE1F5EC)
+
+val Err = Color(0xFFE0533D)
+val ErrSoft = Color(0xFFFCE7E1)
+
+val Yellow = Color(0xFFF4B740)
+val YellowSoft = Color(0xFFFFF3D6)
+val YellowInk = Color(0xFF8A5B00)
+
+val NounColor = Color(0xFF3B82F6)
+val VerbColor = Err
+val ParticipleColor = Ok
+val AdjectiveColor = Yellow
+val AdverbColor = Color(0xFF8B5CF6)
+val GerundColor = Color(0xFFEC4899)

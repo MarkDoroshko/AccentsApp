@@ -14,4 +14,8 @@ interface WordDao {
     @Transaction
     @Query("SELECT * FROM words")
     suspend fun getAllWordsWithVariant(): List<WordWithVariants>
+
+    @Transaction
+    @Query("SELECT * FROM words WHERE partOfSpeech = :partOfSpeech")
+    suspend fun getWordsByPartOfSpeech(partOfSpeech: String): List<WordWithVariants>
 }
