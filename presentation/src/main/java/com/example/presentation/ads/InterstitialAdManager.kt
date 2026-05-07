@@ -21,9 +21,19 @@ class InterstitialAdManager @Inject constructor(
     private val loader: InterstitialAdLoader = InterstitialAdLoader(context)
     private var ad: InterstitialAd? = null
     private var loading: Boolean = false
+    private var playAgainCount: Int = 0
 
     init {
         preload()
+    }
+
+    fun showEverySecondPlayAgain(activity: Activity, onDismiss: () -> Unit) {
+        playAgainCount += 1
+        if (playAgainCount % 2 == 0) {
+            show(activity, onDismiss)
+        } else {
+            onDismiss()
+        }
     }
 
     fun preload() {

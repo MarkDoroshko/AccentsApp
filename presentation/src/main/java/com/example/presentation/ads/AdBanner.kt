@@ -21,7 +21,7 @@ fun AdBanner(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val bannerView = remember {
         BannerAdView(context).apply {
-            setAdSize(stickySize(context))
+            setAdSize(inlineSize(context))
             setBannerAdEventListener(object : BannerAdEventListener {
                 override fun onAdLoaded() {}
                 override fun onAdFailedToLoad(error: AdRequestError) {}
@@ -42,8 +42,10 @@ fun AdBanner(modifier: Modifier = Modifier) {
     )
 }
 
-private fun stickySize(context: Context): BannerAdSize {
+private const val INLINE_BANNER_MAX_HEIGHT_DP = 50
+
+private fun inlineSize(context: Context): BannerAdSize {
     val metrics: DisplayMetrics = context.resources.displayMetrics
     val widthDp = (metrics.widthPixels / metrics.density).toInt()
-    return BannerAdSize.sticky(context, widthDp)
+    return BannerAdSize.inline(context, widthDp, INLINE_BANNER_MAX_HEIGHT_DP)
 }

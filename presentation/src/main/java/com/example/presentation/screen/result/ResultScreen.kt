@@ -73,7 +73,7 @@ fun ResultScreen(
             when (effect) {
                 is ResultEffect.PlayAgainWithAd -> {
                     if (activity != null) {
-                        adManager.show(activity) { onPlayAgain(effect.category) }
+                        adManager.showEverySecondPlayAgain(activity) { onPlayAgain(effect.category) }
                     } else {
                         onPlayAgain(effect.category)
                     }

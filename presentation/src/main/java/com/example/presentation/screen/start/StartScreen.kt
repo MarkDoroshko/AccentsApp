@@ -30,7 +30,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.presentation.component.AppLogo
 import com.example.presentation.component.DuoButton
 import com.example.presentation.component.StreakBadge
 import com.example.presentation.theme.Accent
@@ -77,7 +76,6 @@ private fun StartContent(
     ) {
         Column(Modifier.fillMaxSize()) {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                AppLogo()
                 Spacer(Modifier.weight(1f))
                 if (state.streak > 0) {
                     StreakBadge(state.streak)

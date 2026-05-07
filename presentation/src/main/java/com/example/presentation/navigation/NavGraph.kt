@@ -16,9 +16,11 @@ import com.example.presentation.screen.categories.CategoriesScreen
 import com.example.presentation.screen.quiz.QuizNavArgs
 import com.example.presentation.screen.quiz.QuizScreen
 import com.example.presentation.screen.result.ResultScreen
+import com.example.presentation.screen.splash.SplashScreen
 import com.example.presentation.screen.start.StartScreen
 
 sealed class Screen(val route: String) {
+    data object Splash : Screen("splash")
     data object Start : Screen("start")
     data object Categories : Screen("categories")
     data object Quiz : Screen("quiz/{${QuizNavArgs.CATEGORY_ARG}}") {
@@ -38,8 +40,18 @@ fun NavGraph(modifier: Modifier = Modifier) {
         NavHost(
             modifier = Modifier.padding(innerPadding),
             navController = navController,
-            startDestination = Screen.Start.route
+            startDestination = Screen.Splash.route
         ) {
+            composable(Screen.Splash.route) {
+                SplashScreen(
+                    onContinue = {
+                        navController.navigate(Screen.Start.route) {
+                            popUpTo(Screen.Splash.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
+
             composable(Screen.Start.route) {
                 StartScreen(
                     onStart = { navController.navigate(Screen.Categories.route) }

@@ -29,11 +29,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -204,11 +210,13 @@ private fun WordCard(question: QuizQuestionUiItem, categoryLabel: String) {
                 .padding(horizontal = 22.dp, vertical = 38.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
+            AutoShrinkText(
                 text = question.word,
                 style = AppText.Word,
                 color = Ink,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                minFontSize = 28.sp,
+                modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(12.dp))
             Text(
@@ -292,4 +300,38 @@ private fun FeedbackText(showResult: Boolean, isCorrect: Boolean, correctText: S
             )
         }
     }
+}
+
+@Composable
+private fun AutoShrinkText(
+    text: String,
+    style: TextStyle,
+    color: Color,
+    textAlign: TextAlign,
+    minFontSize: TextUnit,
+    modifier: Modifier = Modifier
+) {
+    var resolvedStyle by remember(text, style) { mutableStateOf(style) }
+    var ready by remember(text, style) { mutableStateOf(false) }
+
+    Text(
+        text = text,
+        style = resolvedStyle,
+        color = color,
+        textAlign = textAlign,
+        softWrap = false,
+        maxLines = 1,
+        modifier = modifier.drawWithContent { if (ready) drawContent() },
+        onTextLayout = { result ->
+            if (result.didOverflowWidth && resolvedStyle.fontSize > minFontSize) {
+                val nextSize = resolvedStyle.fontSize * 0.92f
+                resolvedStyle = resolvedStyle.copy(
+                    fontSize = if (nextSize < minFontSize) minFontSize else nextSize,
+                    lineHeight = TextUnit.Unspecified
+                )
+            } else {
+                ready = true
+            }
+        }
+    )
 }
