@@ -1,3 +1,11 @@
+import java.util.Properties
+import java.io.FileInputStream
+
+val localProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) FileInputStream(f).use { load(it) }
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.ksp)
@@ -12,14 +20,27 @@ android {
         applicationId = "com.example.accentsapp"
         minSdk = 28
         targetSdk = 36
-        versionCode = 3
-        versionName = "2.0"
+        versionCode = 4
+        versionName = "2.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        val keystorePath = localProps.getProperty("ACCENTS_KEYSTORE_PATH")
+        if (!keystorePath.isNullOrBlank() && file(keystorePath).exists()) {
+            create("release") {
+                storeFile = file(keystorePath)
+                storePassword = localProps.getProperty("ACCENTS_KEYSTORE_PASSWORD")
+                keyAlias = localProps.getProperty("ACCENTS_KEY_ALIAS")
+                keyPassword = localProps.getProperty("ACCENTS_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig = signingConfigs.findByName("release")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -30,6 +51,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 

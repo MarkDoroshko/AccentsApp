@@ -1,3 +1,11 @@
+import java.util.Properties
+import java.io.FileInputStream
+
+val localProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) FileInputStream(f).use { load(it) }
+}
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.compose)
@@ -14,6 +22,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField(
+            "String",
+            "YANDEX_BANNER_AD_UNIT_ID",
+            "\"${localProps.getProperty("YANDEX_BANNER_AD_UNIT_ID", "demo-banner-yandex")}\""
+        )
     }
 
     buildTypes {
@@ -31,6 +45,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 

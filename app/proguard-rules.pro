@@ -1,21 +1,27 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# Stack traces — оставляем номера строк, имя файла прячем
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Hilt / Dagger
+-keep class * extends dagger.hilt.android.internal.managers.* { *; }
+-keep class dagger.hilt.** { *; }
+-keep class * extends dagger.hilt.android.HiltAndroidApp
+-keep @dagger.hilt.android.AndroidEntryPoint class *
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# Room
+-keep class * extends androidx.room.RoomDatabase
+-keep @androidx.room.Entity class *
+-dontwarn androidx.room.paging.**
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Yandex Mobile Ads
+-keep class com.yandex.mobile.ads.** { *; }
+-keep class com.yandex.metrica.** { *; }
+-dontwarn com.yandex.mobile.ads.**
+-dontwarn com.yandex.metrica.**
+
+# Kotlin metadata + reflection (на случай если рефлекшн где-то используется)
+-keepattributes RuntimeVisibleAnnotations,RuntimeVisibleParameterAnnotations,AnnotationDefault
+-keep class kotlin.Metadata { *; }
+
+# Compose рантайм — обычно не нужно править, но на всякий
+-dontwarn androidx.compose.**

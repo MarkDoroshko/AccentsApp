@@ -11,7 +11,7 @@ class App : Application() {
         super.onCreate()
 
         YandexAds.initialize(this) {
-            Log.d("YandexAds", "SDK initialized")
+            if (BuildConfig.DEBUG) Log.d("YandexAds", "SDK initialized")
         }
     }
 }
