@@ -28,6 +28,11 @@ android {
             "YANDEX_BANNER_AD_UNIT_ID",
             "\"${localProps.getProperty("YANDEX_BANNER_AD_UNIT_ID", "demo-banner-yandex")}\""
         )
+        buildConfigField(
+            "String",
+            "YANDEX_INTERSTITIAL_AD_UNIT_ID",
+            "\"${localProps.getProperty("YANDEX_INTERSTITIAL_AD_UNIT_ID", "demo-interstitial-yandex")}\""
+        )
     }
 
     buildTypes {

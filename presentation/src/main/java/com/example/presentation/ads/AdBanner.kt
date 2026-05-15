@@ -42,7 +42,7 @@ fun AdBanner(modifier: Modifier = Modifier) {
     )
 }
 
-private const val INLINE_BANNER_MAX_HEIGHT_DP = 50
+private const val INLINE_BANNER_MAX_HEIGHT_DP = 90
 
 private fun inlineSize(context: Context): BannerAdSize {
     val metrics: DisplayMetrics = context.resources.displayMetrics

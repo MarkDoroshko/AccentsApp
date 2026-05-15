@@ -4,5 +4,5 @@ import com.example.presentation.BuildConfig
 
 object AdsConfig {
     val BANNER_AD_UNIT_ID = BuildConfig.YANDEX_BANNER_AD_UNIT_ID
-    const val INTERSTITIAL_AD_UNIT_ID = "demo-interstitial-yandex"
+    val INTERSTITIAL_AD_UNIT_ID = BuildConfig.YANDEX_INTERSTITIAL_AD_UNIT_ID
 }
